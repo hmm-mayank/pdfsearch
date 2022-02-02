@@ -28,9 +28,24 @@ const NewsDetail = () => {
         {data?.text ? data?.text : data?.description}
       </p>
 
-      <Link href={"/"} passHref={true}>
-        <Button> HOME </Button>
-      </Link>
+      <Button
+        onClick={() => router.back()}
+        type="primary"
+        style={{
+          position: "fixed",
+          zIndex: 1,
+          bottom: 10,
+          fontSize: 30,
+          textTransform: "uppercase",
+          left: "10%",
+          padding: 10,
+          height: 70,
+          opacity: 0.7,
+          boxShadow: "0 7px 19px rgba(57, 63, 72, 0.3)",
+        }}
+      >
+        Back to Home{" "}
+      </Button>
     </div>
   );
 };
