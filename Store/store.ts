@@ -1,5 +1,6 @@
 import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 import { airQuailtySlice } from "../Features/AirQuality-api-slice";
+import { newsSlice } from "../Features/news-slice";
 // import { apiSlice } from "../features/coins/coins-api-slice";
 
 // automaticlly add thunk middle
@@ -11,6 +12,7 @@ export const store = configureStore({
     // automatically call combined Reducer
     // counter: counterReducer,
     [airQuailtySlice.reducerPath]: airQuailtySlice.reducer,
+    [newsSlice.reducerPath]: newsSlice.reducer,
   },
   devTools: true,
   middleware: (getDefaultMiddleware) => {
