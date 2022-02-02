@@ -1,13 +1,13 @@
-import { AutoComplete, Button, Card, Col, Input, Row, Tag } from "antd";
-import Meta from "antd/lib/card/Meta";
+import { Button, Card, Col, Input, Row, Tag } from "antd";
 import Layout, { Header } from "antd/lib/layout/layout";
 import Modal from "antd/lib/modal/Modal";
-import debounce from "lodash/debounce";
 import moment from "moment";
 import Image from "next/image";
-import react, { useEffect, useState } from "react";
-import { useFetchCityRecordsQuery } from "../Features/AirQuality-api-slice";
-import { useFetchNewsQuery } from "../Features/news-slice";
+import { useState } from "react";
+import {
+  useFetchNewsDetailQuery,
+  useFetchNewsQuery,
+} from "../Features/news-slice";
 const gridStyle = {
   width: "25%",
   textAlign: "center",
@@ -18,7 +18,8 @@ const MainContainer = () => {
   const [showModal, setShowModal] = useState(false);
   const [newsUrl, setNewsUrl] = useState("");
   const { data, isFetching } = useFetchNewsQuery(newsLang);
-
+  let newsInDetails = useFetchNewsDetailQuery(newsUrl);
+  const [newsDetail, setNewsDetail] = useState(newsInDetails.data);
   const onSearch = (value) => {
     if (value) {
       setNewsUrl(value);
@@ -33,7 +34,11 @@ const MainContainer = () => {
           onOk={() => setShowModal(false)}
           bodyStyle={{ height: 700, width: 700 }}
         >
-          <iframe src={newsUrl} width={"100%"} height={"100%"}></iframe>
+          <div>
+            {newsInDetails.isFetching == true
+              ? "Loading"
+              : newsInDetails.data.text}
+          </div>
         </Modal>
       )}
 
@@ -110,9 +115,9 @@ const MainContainer = () => {
 
                       <br />
                       <p>{news.contentSnippet}</p>
-                      <Button onClick={() => onSearch(news.guid)}>
-                        Read Full
-                      </Button>
+                      {news.guid && (
+                        <a href={`/newsDetail?query=${news.guid}`}>Link</a>
+                      )}
                     </Card>
                   </Col>
                 );

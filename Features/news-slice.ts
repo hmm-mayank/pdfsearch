@@ -25,6 +25,12 @@ interface INewsListFormat {
   copyright?: string;
   image?: INewsImage;
 }
+interface INewsDetail {
+  title?: string;
+  text?: string;
+  topImage?: string;
+  description?: string;
+}
 
 export const newsSlice = createApi({
   reducerPath: "newsApi",
@@ -42,8 +48,13 @@ export const newsSlice = createApi({
           return `/news?lang=${lang}`;
         },
       }),
+      fetchNewsDetail: builder.query<INewsDetail, string | void>({
+        query(lang = "en") {
+          return `/api/detailNews?news=${lang}`;
+        },
+      }),
     };
   },
 });
 
-export const { useFetchNewsQuery } = newsSlice;
+export const { useFetchNewsQuery, useFetchNewsDetailQuery } = newsSlice;
