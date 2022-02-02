@@ -1,6 +1,7 @@
 import { AutoComplete, Button, Card, Col, Input, Row, Tag } from "antd";
 import Meta from "antd/lib/card/Meta";
 import Layout, { Header } from "antd/lib/layout/layout";
+import Modal from "antd/lib/modal/Modal";
 import debounce from "lodash/debounce";
 import moment from "moment";
 import Image from "next/image";
@@ -14,14 +15,28 @@ const gridStyle = {
 const { Search } = Input;
 const MainContainer = () => {
   const [newsLang, setNewsLang] = useState("en");
+  const [showModal, setShowModal] = useState(false);
+  const [newsUrl, setNewsUrl] = useState("");
   const { data, isFetching } = useFetchNewsQuery(newsLang);
 
   const onSearch = (value) => {
-    console.log(value);
-    setNewsLang(value);
+    if (value) {
+      setNewsUrl(value);
+      setShowModal(true);
+    }
   };
   return (
     <>
+      {showModal && (
+        <Modal
+          visible={showModal}
+          onOk={() => setShowModal(false)}
+          bodyStyle={{ height: 700, width: 700 }}
+        >
+          <iframe src={newsUrl} width={"100%"} height={"100%"}></iframe>
+        </Modal>
+      )}
+
       <Header
         style={{
           backgroundColor: "white",
@@ -95,6 +110,9 @@ const MainContainer = () => {
 
                       <br />
                       <p>{news.contentSnippet}</p>
+                      <Button onClick={() => onSearch(news.guid)}>
+                        Read Full
+                      </Button>
                     </Card>
                   </Col>
                 );

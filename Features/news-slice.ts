@@ -7,6 +7,7 @@ interface INewsFormat {
   pubDate?: string;
   author?: string;
   content?: string;
+  guid?: string;
   contentSnippet?: string;
   isoDate?: string;
 }
