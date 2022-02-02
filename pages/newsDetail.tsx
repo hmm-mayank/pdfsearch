@@ -11,8 +11,9 @@ interface IProps {
 }
 const NewsDetail = () => {
   let router = useRouter();
-  console.log(router.query.query);
-  let { data, isFetching } = useFetchNewsDetailQuery(router?.query?.query);
+  console.log(router.query);
+  //@ts-ignore
+  let { data, isFetching } = useFetchNewsDetailQuery(router.query.query);
   return (
     <div>
       <Image
