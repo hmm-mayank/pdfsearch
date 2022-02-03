@@ -33,7 +33,7 @@ const MainContainer = () => {
   const init = () => {
     try {
       let value = window.localStorage.getItem("pref");
-      setNewsLang(value);
+      setNewsLang(value ? value : "en");
     } catch (error) {
       setNewsLang("en");
     }
