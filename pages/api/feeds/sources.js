@@ -10,6 +10,12 @@ const Feeds = [
         url: "https://www.thehindu.com/news/feeder/default.rss",
       },
       {
+        newPaper: "live_mint",
+        displayPaperText: "Live Mint",
+        url: "https://www.livemint.com/rss/news",
+      },
+
+      {
         newPaper: "moneycontrol",
         displayPaperText: "money control",
         url: "https://www.moneycontrol.com/rss/MCtopnews.xml",
@@ -38,9 +44,9 @@ const Feeds = [
         url: "https://www.bhaskarhindi.com/rss/national.xml",
       },
       {
-        newPaper: "amarujala",
+        newPaper: "hindustan",
         displayPaperText: "अमर उजाला",
-        url: "https://www.amarujala.com/rss/breaking-news.xml",
+        url: "https://feed.livehindustan.com/rss/3127",
       },
     ],
   },

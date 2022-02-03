@@ -14,3 +14,23 @@ a {
 * {
   box-sizing: border-box;
 }
+p {
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-font-smoothing: antialiased !important;
+  text-rendering: optimizelegibility !important;
+  letter-spacing: 0.03em;
+  font-size: 20px;
+  padding: 15px;
+  word-break: break-word;
+}
+
+.limit-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 12px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* number of lines to show */
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+}

@@ -3,7 +3,7 @@ import Layout, { Header } from "antd/lib/layout/layout";
 import Modal from "antd/lib/modal/Modal";
 import moment from "moment";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   useFetchNewsDetailQuery,
   useFetchNewsQuery,
@@ -12,6 +12,7 @@ const gridStyle = {
   width: "25%",
   textAlign: "center",
 };
+
 const { Search } = Input;
 const MainContainer = () => {
   const [newsLang, setNewsLang] = useState("en");
@@ -25,6 +26,21 @@ const MainContainer = () => {
       setNewsUrl(value);
       setShowModal(true);
     }
+  };
+  useEffect(() => {
+    init();
+  }, []);
+  const init = () => {
+    try {
+      let value = window.localStorage.getItem("pref");
+      setNewsLang(value);
+    } catch (error) {
+      setNewsLang("en");
+    }
+  };
+  const savePref = (value) => {
+    window.localStorage.setItem("pref", value);
+    setNewsLang(value);
   };
   return (
     <>
@@ -57,7 +73,7 @@ const MainContainer = () => {
           <Col>
             <Button
               type="primary"
-              onClick={() => setNewsLang(newsLang == "hi" ? "en" : "hi")}
+              onClick={() => savePref(newsLang == "en" ? "hi" : "en")}
             >
               {newsLang == "en" ? "Hindi News" : "English News"}
             </Button>
@@ -114,10 +130,16 @@ const MainContainer = () => {
                       </Row>
 
                       <br />
-                      <p>{news.contentSnippet}</p>
-                      {news.guid && (
-                        <a href={`/newsDetail?query=${news.guid}`}>Link</a>
-                      )}
+                      <p className="limit-text">{news.contentSnippet}</p>
+                      {
+                        <a
+                          href={`/newsDetail?query=${
+                            news.guid || news.link
+                          }&newspaper=${news.title}`}
+                        >
+                          Link
+                        </a>
+                      }
                     </Card>
                   </Col>
                 );

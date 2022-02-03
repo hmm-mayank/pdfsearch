@@ -30,6 +30,7 @@ interface INewsDetail {
   text?: string;
   topImage?: string;
   description?: string;
+  author?: string;
 }
 
 export const newsSlice = createApi({
