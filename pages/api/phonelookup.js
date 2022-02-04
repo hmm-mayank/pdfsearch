@@ -22,9 +22,6 @@ export default async function handler(req, res) {
     if (readFile) {
       res.send(readFile);
       return 0;
-    } else {
-      res.status(500).jsonp({ message: "No data Found", status: 500 });
-      return 0;
     }
   }
 
