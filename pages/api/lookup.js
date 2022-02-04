@@ -1,8 +1,6 @@
 var sys = require("util");
 var exec = require("child_process").exec;
 
-let app = express();
-
 export default async function handler(req, res) {
   let { phone } = req.query;
 
