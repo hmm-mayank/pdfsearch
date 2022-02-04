@@ -1,5 +1,6 @@
 import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 import { airQuailtySlice } from "../Features/AirQuality-api-slice";
+import { lookupSlice } from "../Features/lookup-slice";
 import { newsSlice } from "../Features/news-slice";
 // import { apiSlice } from "../features/coins/coins-api-slice";
 
@@ -13,6 +14,7 @@ export const store = configureStore({
     // counter: counterReducer,
     [airQuailtySlice.reducerPath]: airQuailtySlice.reducer,
     [newsSlice.reducerPath]: newsSlice.reducer,
+    [lookupSlice.reducerPath]: lookupSlice.reducer,
   },
   devTools: true,
   middleware: (getDefaultMiddleware) => {

@@ -34,3 +34,14 @@ p {
   line-clamp: 3;
   -webkit-box-orient: vertical;
 }
+
+.box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* .box div {
+  width: 200px;
+  height: 100px;
+} */
