@@ -9,11 +9,11 @@ export default async function handler(req, res) {
   let { phone, countryCode, type } = req.query;
 
   if (type == "read") {
-    if (!fs.existsSync("pages/api/feeds/phonelookedup.txt")) {
-      fs.writeFile("pages/api/feeds/phonelookedup.txt");
+    if (!fs.existsSync("pages/api/feeds/phoneStatus.txt")) {
+      fs.writeFile("pages/api/feeds/phoneStatus.txt");
     }
     let readFile = await fs_readFile(
-      "pages/api/feeds/phonelookedup.txt",
+      "pages/api/feeds/phoneStatus.txt",
       "utf-8"
     );
     readFile = readFile.substring(0, readFile.length - 1);

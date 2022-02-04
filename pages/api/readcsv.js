@@ -19,14 +19,14 @@ export async function read(filePath) {
     console.log(num);
 
     const result = await axios.default.get(
-      `http://142.132.183.253/api/lookup?phone=${ele[0]}`
+      `http://142.132.183.253/api/lookup?phone=${num}`
     );
     console.log(result.data);
     fs_writeFile(
       "pages/api/feeds/phoneStatus.txt",
       JSON.stringify(result.data) + ","
     );
-    await delay(100);
+    await delay(10);
   }
 }
 
