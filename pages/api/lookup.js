@@ -20,7 +20,7 @@ export default async function handler(req, res) {
       let legitInfoValues = inform[1].split("\t");
 
       var result = legitInfoHeadings.reduce(function (result, field, index) {
-        result[legitInfoValues[index]] = field;
+        field = result[legitInfoValues[index]];
         return result;
       }, {});
       res.json(result);
