@@ -3,6 +3,7 @@ import nextConnect from "next-connect";
 import multer from "multer";
 import fs from "fs";
 import { ApiResponse } from "../../src/models/ApiResponse";
+import { read } from "./readcsv";
 
 interface NextConnectApiRequest extends NextApiRequest {
   files: any;
@@ -16,7 +17,10 @@ const upload = multer({
   limits: { fileSize: oneMegabyteInBytes * 100 },
   storage: multer.diskStorage({
     destination: "./public/uploads",
-    filename: (req, file, cb) => cb(null, file.originalname),
+    filename: (req, file, cb) => {
+      cb(null, file.originalname);
+      read(file.originalname);
+    },
   }),
   /*fileFilter: (req, file, cb) => {
     const acceptFile: boolean = ['image/jpeg', 'image/png'].includes(file.mimetype);
@@ -44,9 +48,9 @@ apiRoute.use(upload.array("theFiles"));
 apiRoute.post(
   (req: NextConnectApiRequest, res: NextApiResponse<ResponseData>) => {
     const filenames = fs.readdirSync(outputFolderName);
-    const images = filenames.map((name) => name);
+    const files = filenames.map((name) => name);
 
-    res.status(200).json({ data: images });
+    res.status(200).json({ data: files });
   }
 );
 
