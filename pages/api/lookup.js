@@ -16,11 +16,11 @@ export default async function handler(req, res) {
       }
 
       let inform = stdout.split("\n");
-      let legitInfoHeadings = inform[0].split("\t");
-      let legitInfoValues = inform[1].split("\t");
+      let legitInfoHeadings = inform[1].split("\t");
+      let legitInfoValues = inform[0].split("\t");
 
       var result = legitInfoHeadings.reduce(function (result, field, index) {
-        field = result[legitInfoValues[index]];
+        result[legitInfoValues[index]] = field;
         return result;
       }, {});
       res.json(result);
