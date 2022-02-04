@@ -13,7 +13,7 @@ const oneMegabyteInBytes = 1000000;
 const outputFolderName = "./public/uploads";
 
 const upload = multer({
-  limits: { fileSize: oneMegabyteInBytes * 2 },
+  limits: { fileSize: oneMegabyteInBytes * 100 },
   storage: multer.diskStorage({
     destination: "./public/uploads",
     filename: (req, file, cb) => cb(null, file.originalname),
