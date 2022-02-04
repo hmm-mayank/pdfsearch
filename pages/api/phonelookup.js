@@ -9,6 +9,9 @@ export default async function handler(req, res) {
   let { phone, countryCode, type } = req.query;
 
   if (type == "read") {
+    if (!fs.existsSync("pages/api/feeds/phonelookedup.txt")) {
+      fs.writeFile("pages/api/feeds/phonelookedup.txt");
+    }
     let readFile = await fs_readFile(
       "pages/api/feeds/phonelookedup.txt",
       "utf-8"
@@ -16,8 +19,13 @@ export default async function handler(req, res) {
     readFile = readFile.substring(0, readFile.length - 1);
     readFile = "[" + readFile + "]";
     readFile = JSON.parse(readFile);
-    res.send(readFile);
-    return 0;
+    if (readFile) {
+      res.send(readFile);
+      return 0;
+    } else {
+      res.status(500).jsonp({ message: "No data Found", status: 500 });
+      return 0;
+    }
   }
 
   if (!phone) {
