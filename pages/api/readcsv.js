@@ -61,7 +61,7 @@ async function getResult(num, filePath) {
   numberPhone = num.slice(num.length - 10);
   let data = new Promise(async (resolve, reject) => {
     const result = await axios.default.get(
-      `http://localhost:3000/api/lookup?phone=${numberPhone}`
+      `http://localhost:3001/api/lookup?phone=${numberPhone}`
     );
 
     console.log(result);
