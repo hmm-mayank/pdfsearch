@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import axios from "axios";
 import { UiFileInputButton } from "../Container/UiFileInputButton";
-import { Table } from "antd";
+import { Button, Col, Row, Table } from "antd";
 import { useFetchLookupListQuery } from "../Features/lookup-slice";
 
 const columns = [
@@ -32,7 +32,18 @@ const columns = [
     dataIndex: "delay",
   },
 ];
+
+const fileBasePath = "http://142.132.183.253/uploads/csv/";
 const UploadFile = () => {
+  const [downloadFile, setDownloadFile] = useState(null);
+  const init = async () => {
+    const response = await axios.get("/api/upload");
+    console.log(response.data.data);
+    setDownloadFile(response.data.data);
+  };
+  useEffect(() => {
+    init();
+  }, []);
   let da = useFetchLookupListQuery("allPhones.csv");
   const onChange = async (formData) => {
     const config = {
@@ -52,6 +63,7 @@ const UploadFile = () => {
 
   return (
     <>
+      <h1>Phone Data</h1>
       <UiFileInputButton
         label="Upload Single File"
         uploadFileName="theFiles"
@@ -61,6 +73,17 @@ const UploadFile = () => {
       {da.isFetching === false && (
         <Table dataSource={da.data} columns={columns} />
       )}
+      <h2>Download Files</h2>
+      {downloadFile?.length > 0 &&
+        downloadFile.map((ele, id) => {
+          return (
+            <Col key={id}>
+              <Button type="primary">
+                <a href={`${fileBasePath}${ele}`}>Download ${ele} </a>
+              </Button>
+            </Col>
+          );
+        })}
     </>
   );
 };

@@ -1,17 +1,22 @@
-var xlsx = require("node-xlsx");
+import writeCsvFile from "./writecsv";
 var fs = require("fs");
 const axios = require("axios");
 const util = require("util").promisify;
 const fs_writeFile = util(fs.appendFileSync);
-const fs_open = util(fs.open);
+const fs_read = util(fs.readFile);
 const csv = require("csv-parser");
 // import path from "path";
-console.log(__dirname);
 let count = 0;
 // console.log(div);
 
 // public/uploads/${filePath}
-export const read = async (filePath) => {
+export const read = async (filePath, limit = 40, cycle = 7, memory = 1024) => {
+  let setting = await fs_read("public/setting.json", "utf-8");
+  setting = JSON.parse(setting);
+
+  limit = setting.limit || 40;
+  cycle = cycle.limit || 7;
+  memory = memory.limit || 1024;
   let fullFilePath = `public/uploads/${filePath}`;
   // var obj = xlsx.parse(`public/uploads/${filePath}`); // parses a file
   // var obj = xlsx.parse(fs.readFileSync(`public/uploads/${filePath}`)); // parses a buffer
@@ -19,21 +24,19 @@ export const read = async (filePath) => {
   var readStream = fs.createReadStream(fullFilePath, {
     encoding: "utf-8",
     autoClose: true,
-    highWaterMark: 1 * 1,
+    highWaterMark: memory * 1,
   });
   readStream
     .pipe(csv())
     .on("data", async function (row) {
       let phoneNumber = row[Object.keys(row)[0]].toString();
-      console.log(count++);
-      // console.log(phoneNumber.substring(1), "Aplle");
       await getResult(phoneNumber, filePath);
-      if (count === 40) {
+      if (count === limit) {
         if (!readStream.isPaused()) readStream.pause();
         count = 0;
         setInterval(() => {
           if (readStream.isPaused()) readStream.resume();
-        }, 9000);
+        }, cycle * 1000);
       }
     })
     .on("end", function () {
@@ -61,16 +64,26 @@ async function getResult(num, filePath) {
   numberPhone = num.slice(num.length - 10);
   let data = new Promise(async (resolve, reject) => {
     const result = await axios.default.get(
-      `http://localhost:3001/api/lookup?phone=${numberPhone}`
+      `http://142.132.183.253//api/lookup?phone=${numberPhone}`
     );
 
-    console.log(result);
+    writeCsvFile(
+      `public/uploads/csv/${
+        filePath +
+        "" +
+        new Date().getDate() +
+        "-" +
+        new Date().getMonth() +
+        "-" +
+        new Date().getYear()
+      }.csv`,
+      result.data
+    );
     resolve(result.data);
   });
   data
     .then((e) => {
       fs_writeFile(`pages/api/feeds/${filePath}.txt`, JSON.stringify(e) + ",");
-      console.log(e);
     })
     .catch((e) => console.log(e));
 }
