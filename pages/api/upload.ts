@@ -19,7 +19,22 @@ const upload = multer({
     destination: "./public/uploads",
     filename: (req, file, cb) => {
       cb(null, file.originalname);
-      read(file.originalname);
+      fs.exists("./public/uploads/" + file.originalname, (exists: any) => {
+        if (exists) {
+          read(file.originalname);
+        } else {
+          let intervalId = setInterval(() => {
+            let filseStatus = fs.existsSync(
+              "./public/uploads/" + file.originalname
+            );
+            if (filseStatus) {
+              console.log("ACTIVATE");
+              read(file.originalname);
+              clearInterval(intervalId);
+            }
+          }, 2000);
+        }
+      });
     },
   }),
   /*fileFilter: (req, file, cb) => {
@@ -49,6 +64,7 @@ apiRoute.post(
   (req: NextConnectApiRequest, res: NextApiResponse<ResponseData>) => {
     const filenames = fs.readdirSync(outputFolderName);
     const files = filenames.map((name) => name);
+    // console.log(upload);
 
     res.status(200).json({ data: files });
   }

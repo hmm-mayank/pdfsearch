@@ -6,14 +6,15 @@ const fs = require("fs");
 const fs_writeFile = util.promisify(fs.appendFile);
 const fs_readFile = util.promisify(fs.readFile);
 export default async function handler(req, res) {
-  let { phone, countryCode, type } = req.query;
+  let { phone, countryCode, type, fileName } = req.query;
 
+  console.log(fileName);
   if (type == "read") {
-    if (!fs.existsSync("pages/api/feeds/phoneStatus.txt")) {
-      fs.writeFile("pages/api/feeds/phoneStatus.txt");
+    if (!fs.existsSync(`pages/api/feeds/${fileName}.txt`)) {
+      fs.writeFile(`pages/api/feeds/${fileName}.txt`);
     }
     let readFile = await fs_readFile(
-      "pages/api/feeds/phoneStatus.txt",
+      `pages/api/feeds/${fileName}.txt`,
       "utf-8"
     );
     readFile = readFile.substring(0, readFile.length - 1);

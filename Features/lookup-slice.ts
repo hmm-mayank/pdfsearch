@@ -33,8 +33,8 @@ export const lookupSlice = createApi({
         },
       }),
       fetchLookupList: builder.query<IphoneLookup[], string | void>({
-        query() {
-          return `/phonelookup?type=read`;
+        query(fileName) {
+          return `/phonelookup?type=read&fileName=${fileName}`;
         },
       }),
     };

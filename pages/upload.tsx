@@ -33,7 +33,7 @@ const columns = [
   },
 ];
 const UploadFile = () => {
-  let da = useFetchLookupListQuery();
+  let da = useFetchLookupListQuery("allPhones.csv");
   const onChange = async (formData) => {
     const config = {
       headers: { "content-type": "multipart/form-data" },
