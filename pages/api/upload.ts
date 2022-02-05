@@ -58,14 +58,14 @@ const apiRoute = nextConnect({
   },
 });
 
-// apiRoute.use();
+apiRoute.use(upload.array("theFiles"));
 
 apiRoute.post(
   (req: NextConnectApiRequest, res: NextApiResponse<ResponseData>) => {
     const filenames = fs.readdirSync(outputFolderName);
     const files = filenames.map((name) => name);
     // console.log(upload);
-    upload.array("theFiles");
+
     res.status(200).json({ data: files });
   }
 );
