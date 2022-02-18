@@ -20,7 +20,8 @@
     "**/*.ts",
     "**/*.tsx",
     "pages/api/readcsv.js",
-    "pages/api/writecsv.js"
+    "pages/api/writecsv.js",
+    "pages/api/s3.js"
   ],
   "exclude": ["node_modules"]
 }
